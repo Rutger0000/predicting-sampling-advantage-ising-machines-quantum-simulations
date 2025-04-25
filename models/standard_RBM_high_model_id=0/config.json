@@ -1,0 +1,46 @@
+{
+    "version": {
+        "fileversion": "1.0"
+    },
+    "lattice": {
+        "type": "Default",
+        "Lx": 4,
+        "Ly": 4
+    },
+    "hamiltonian": {
+        "type": "Heisenberg",
+        "J_x": 1.0,
+        "J_y": 1.0
+    },
+    "model": {
+        "type": "DefaultRBM",
+        "alpha": 1,
+        "weight_initializer": "real_default_uniform"
+    },
+    "sampler": {
+        "type": "MultiProcessingMCSampler",
+        "nthermalization": 200,
+        "nsamples": 10000,
+        "nprocesses": 20
+    },
+    "gradient": {
+        "type": "StochasticReconfiguration",
+        "max_epsilon" : 0.001,
+        "falloff_rate": 0.85,
+        "initial_falloff_rate": 10
+    },
+    "optimiser": {
+        "type": "GradientDescent",
+        "learning_rate": 0.005
+    },
+    "groundstateoptimiser": {
+        "type": "DefaultGroundState",
+        "niterations": 300
+    },
+    "evaluation": {
+        "type": "Default",
+        "nchains": 32,
+        "nthermalization": 200,
+        "nsamples": 10000
+    }
+}

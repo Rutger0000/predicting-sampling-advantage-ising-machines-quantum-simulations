@@ -1,0 +1,21 @@
+flake8
+isort
+loguru
+mkdocs
+pip
+python-dotenv
+tqdm
+typer
+-e .
+matplotlib
+ipympl
+pandas
+tqdm
+pyarrow
+numba
+scipy
+seaborn
+tables
+h5py
+scikit-learn
+dash
