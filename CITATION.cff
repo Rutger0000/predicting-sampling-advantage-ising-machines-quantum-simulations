@@ -1,0 +1,31 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  Predicting sampling advantage of stochastic Ising Machines
+  for Quantum Simulations
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Rutger J.L.F.
+    family-names: Berns
+    affiliation: Radboud University
+  - given-names: 'Davi R. '
+    family-names: Rodrigues
+    affiliation: Politecnico di Bari
+  - given-names: Giovanni
+    family-names: Finocchio
+    affiliation: University of Messina
+  - given-names: Johan H.
+    family-names: Mentink
+    affiliation: Radboud University
+identifiers:
+  - type: doi
+    value: 10.48550/arXiv.2504.18359
+    description: Paper connected to code repository
+repository-code: >-
+  https://github.com/Rutger0000/predicting-sampling-advantage-ising-machines-quantum-simulations
+license: CC-BY-4.0
