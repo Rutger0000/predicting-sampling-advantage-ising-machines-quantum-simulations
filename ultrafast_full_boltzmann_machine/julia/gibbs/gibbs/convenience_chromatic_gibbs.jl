@@ -1,4 +1,4 @@
-
+include("chromatic_gibbs_rbm.jl")
 """
     chromatic_rbm_sampler(nspins, W, b, steps, precision, sampling_settings)
 

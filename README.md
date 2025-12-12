@@ -4,11 +4,15 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-This repository contains the code for the paper "Predicting sampling advantage of stochastic Ising Machines for Quantum Simulations".
+This repository contains the code for the paper "Predicting sampling advantage of stochastic Ising Machines for Quantum Simulations" which is available on [arXiv:2504.18359](https://doi.org/10.48550/arXiv.2504.18359).
 
-The code is organized as follows:
-- Code for obtaining the exchange matrix and bias vector of the Ising model from the weights of a Restricted Boltzmann Machine (RBM) trained using the [ULTRAFAST](https://github.com/ultrafast-code/ULTRAFAST) code.
-- Example of the chromatic Gibbs sampling code, which is used to sample from the Ising model. The code can be found in the `ultrafast_full_boltzmann_machine/julia/gibbs/gibbs` folder.
+## Organization
+- Code for obtaining the exchange matrix $J_{ij}$ and bias vector $h_i$ of the Ising
+  model from the weights of a Restricted Boltzmann Machine (RBM) trained using
+  the [ULTRAFAST](https://github.com/ultrafast-code/ULTRAFAST) code. This code can be found in the [ultrafast_full_boltzmann_machine/isingweights.py](ultrafast_full_boltzmann_machine/isingweights.py), [ultrafast_full_boltzmann_machine/weight_conversion/weight_promotor.py](ultrafast_full_boltzmann_machine/weight_conversion/weight_promotor.py), [ultrafast_full_boltzmann_machine/julia/weightconverter.jl](ultrafast_full_boltzmann_machine/julia/weightconverter.jl) files. These files can be used through `make` commands as described below.
+- Example of how to use the UltraFast code to find the ground state of the 2D Heisenberg model using the RBM ansatz with translation invariance. The code can be found in the [ultrafast_full_boltzmann_machine/julia/groundstate/groundstate_optimization.jl](ultrafast_full_boltzmann_machine/julia/groundstate/groundstate_optimization.jl) folder.
+- Example of how to use the UltraFast code to sample from the trained RBM representing the ground state of the 2D Heisenberg model. The code can be found in the [ultrafast_full_boltzmann_machine/julia/groundstate/sampling.jl](ultrafast_full_boltzmann_machine/julia/groundstate/sampling.jl) folder.
+- Example of the chromatic Gibbs sampling code, which is used to sample from the Ising model. The code can be found in the [ultrafast_full_boltzmann_machine/julia/gibbs/](ultrafast_full_boltzmann_machine/julia/gibbs/) folder. In this folder, there is also `example.jl` which shows how to use the chromatic Gibbs sampling code to sample from the Ising model and measure the variational energy.
 
 The rest of this document describes how to install/setup the environment and code, and how to run the code.
 
@@ -32,8 +36,12 @@ For further information, [https://www.python.org](https://www.python.org)
 In order to install the proper Julia environment, please run the following command in the root of the project:
 ```bash
 julia --project=.
+using Pkg
+Pkg.instantiate()
 ```
 This code should be compatible with at least Julia version 1.11.3.
+
+Also make sure to install the UltraFast package by following the instructions on [GitHub]().
 
 For further information, [https://julialang.org](https://julialang.org)
 
@@ -41,13 +49,18 @@ For further information, [https://julialang.org](https://julialang.org)
 
 Run `make` in this directory.
 
-- **requirements**: Install Python Dependencies
-- **clean**: Delete all compiled Python files
+- **make requirements**: Install Python Dependencies
+- **make clean**: Delete all compiled Python files
 
-The ULTRAFAST code is used to train the models representing the ground state of the 2D Heisenberg model. The ULTRAFAST code only stores the weights of the RBM, which are independent due to translation invariance. The code in this repository converts these independent weights to the full weights (**convert_weights**), which are then used to compute the exchange matrix and bias vector of the Ising model (**isingweights**).
+The ULTRAFAST code is used to train the models representing the ground state of
+the 2D Heisenberg model. The ULTRAFAST code only stores the weights of the RBM,
+which are independent due to translation invariance. The code in this repository
+converts these independent weights to the $\mathbf{{W}}$ and $\mathbf{{b}}$
+(**convert_weights**), which are then used to compute the exchange matrix $\mathbf{J}$ and
+bias vector $\mathbf{h}$ of the Ising model (**isingweights**).
 
-- **convert_weights**: Convert the independent weights to full weights, writes them to the `data` folder under the names `W_RBM_{nspins}_{alpha}_ti_W.csv` and `W_RBM_{nspins}_{alpha}_ti_b.csv`.
-- **isingweights**: Promote weights to exchange matrix and bias vector of Ising model, writes them to the `data` folder under the names `Ising_{nspins}_{alpha}_ti_J.csv`, `Ising_{nspins}_{alpha}_ti_h.csv`, `W_ising_{nspins}_{alpha}_ti_W.csv`, `W_ising_{nspins}_{alpha}_ti_b.csv`, 
+- **make convert_weights**: Convert the independent weights, stored in `models/*` to full weights, writes them to the `data` folder under the names `W_RBM_{nspins}_{alpha}_ti_W.csv` and `W_RBM_{nspins}_{alpha}_ti_b.csv`.
+- **make isingweights**: Promote weights to exchange matrix and bias vector of Ising model, writes them to the `data` folder under the names `Ising_{nspins}_{alpha}_ti_J.csv`, `Ising_{nspins}_{alpha}_ti_h.csv`, `W_ising_{nspins}_{alpha}_ti_W.csv`, `W_ising_{nspins}_{alpha}_ti_b.csv`, 
 
 Note that the files starting with `Ising` uses the following convention:
 $$
@@ -62,13 +75,13 @@ The files starting with `W_RBM` represent the non-zero part of the exchange matr
 $$
 \mathbf{J} = 
 \begin{bmatrix}
-    \mathbf{0} & (\mathbf{\tilde{W}}^T)_{1 \dots \alpha n \times 1 \dots n} \\
-    \mathbf{\tilde{W}}_{1 \dots n \times 1 \dots \alpha n} & \mathbf{0}
+    \mathbf{0} & (\mathbf{{W}}^T)_{1 \dots \alpha n \times 1 \dots n} \\
+    \mathbf{{W}}_{1 \dots n \times 1 \dots \alpha n} & \mathbf{0}
 \end{bmatrix}
 $$
 and
 $$
-    \mathbf{h} = [\mathbf{\tilde{b}}_{1\dots \alpha n} \ \mathbf{0}_{1\dots n}].
+    \mathbf{h} = [\mathbf{{b}}_{1\dots \alpha n} \ \mathbf{0}_{1\dots n}].
 $$
 
 ## Usage of Chromatic Gibbs Sampling code
@@ -132,11 +145,21 @@ This function performs chromatic Gibbs sampling:
     ├── isingweights.py                     <- Converts the weights of the RBM to the exchange matrix and bias vector of the Ising model    
     ├── config.py
     ├── julia
-    │   ├── gibbs_sampling.jl               <- Contains the chromatic Gibbs sampling code
+    │   ├── gibbs
+    |   |   ├── example.jl                        <- Example of how to use the chromatic Gibbs sampling code to sample from the Ising model and measure the variational energy.
+    │   │   └── gibbs
+    |   |       ├── chromatic_gibbs_rbm.jl      <- Core implementation of chromatic Gibbs sampling from RBM
+    │   │       └── convenience_chromatic_gibbs.jl  <- Function to perform chromatic Gibbs sampling from RBM
+    |   ├── groundstate
+    |   |   ├── groundstate_optimization.jl     <- Example of how to use UltraFast to find the ground state of the 2D Heisenberg model using RBM ansatz with translation invariance
+    |   |   └── sampling.jl                     <- Example of how to use UltraFast to sample from the provided pre-trained RBM models
     │   ├── translation_invariance
-    │   └── weightconverter.jl              <- Converts independent weights (due to translation invariance) to full.
+    │   └── weightconverter.jl              <- Converts independent weights (due to translation invariance) to W, b.
     ├── models
     │   └── models.py                       <- Defines all the models and their parameters
     └── weight_conversion
         └── weight_promotor.py              
 ```
+
+## Citation
+If you use this code in your research, please see [`CITATION.bib`](CITATION.bib).

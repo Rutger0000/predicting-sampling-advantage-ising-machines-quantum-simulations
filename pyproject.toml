@@ -7,7 +7,7 @@ name = "ultrafast_full_boltzmann_machine"
 version = "0.0.1"
 description = "Full Boltzmann Machine Monte Carlo for the Restricted Boltzmann Machine"
 authors = [
-  { name = "Rutger Berns" },
+  { name = "R.J.L.F Berns, J.H. Mentink" },
 ]
 
 readme = "README.md"
