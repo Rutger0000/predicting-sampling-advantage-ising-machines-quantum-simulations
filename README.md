@@ -41,7 +41,7 @@ Pkg.instantiate()
 ```
 This code should be compatible with at least Julia version 1.11.3.
 
-Also make sure to install the UltraFast package by following the instructions on [GitHub]().
+Also make sure to install the UltraFast package by following the instructions on [GitHub](https://github.com/ultrafast-code/UltraFast.jl).
 
 For further information, [https://julialang.org](https://julialang.org)
 
