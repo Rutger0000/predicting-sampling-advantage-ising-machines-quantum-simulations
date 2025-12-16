@@ -148,6 +148,8 @@ This function performs chromatic Gibbs sampling:
     ├── __init__.py
     ├── isingweights.py                     <- Converts the weights of the RBM to the exchange matrix and bias vector of the Ising model    
     ├── config.py
+    ├── autocorrelation
+    │   └── autocorrelation.py              <- Code for calculating the autocorrelation time
     ├── julia
     │   ├── gibbs
     |   |   ├── example.jl                        <- Example of how to use the chromatic Gibbs sampling code to sample from the Ising model and measure the variational energy.
