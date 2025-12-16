@@ -19,3 +19,4 @@ tables
 h5py
 scikit-learn
 dash
+numpy

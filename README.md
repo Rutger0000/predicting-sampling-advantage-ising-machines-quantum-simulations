@@ -13,6 +13,7 @@ This repository contains the code for the paper "Predicting sampling advantage o
 - Example of how to use the UltraFast code to find the ground state of the 2D Heisenberg model using the RBM ansatz with translation invariance. The code can be found in the [ultrafast_full_boltzmann_machine/julia/groundstate/groundstate_optimization.jl](ultrafast_full_boltzmann_machine/julia/groundstate/groundstate_optimization.jl) folder.
 - Example of how to use the UltraFast code to sample from the trained RBM representing the ground state of the 2D Heisenberg model. The code can be found in the [ultrafast_full_boltzmann_machine/julia/groundstate/sampling.jl](ultrafast_full_boltzmann_machine/julia/groundstate/sampling.jl) folder.
 - Example of the chromatic Gibbs sampling code, which is used to sample from the Ising model. The code can be found in the [ultrafast_full_boltzmann_machine/julia/gibbs/](ultrafast_full_boltzmann_machine/julia/gibbs/) folder. In this folder, there is also `example.jl` which shows how to use the chromatic Gibbs sampling code to sample from the Ising model and measure the variational energy.
+- Code to calculate the autocorrelation time from the autocovariance data obtained by running Chromatic Gibbs sampling with [example.jl](ultrafast_full_boltzmann_machine/julia/gibbs/example.jl). The code can be found in the [ultrafast_full_boltzmann_machine/autocorrelation/autocorrelation.py](ultrafast_full_boltzmann_machine/autocorrelation/autocorrelation.py) file.
 
 The rest of this document describes how to install/setup the environment and code, and how to run the code.
 
@@ -83,6 +84,9 @@ and
 $$
     \mathbf{h} = [\mathbf{{b}}_{1\dots \alpha n} \ \mathbf{0}_{1\dots n}].
 $$
+
+For recreating results of Fig 2a, please run `make convert_weights` followed by:
+- **make example**: Runs MH sampling from a pre-trained RBM model and measures the variational energy, runs chromatic Gibbs sampling and measures the variational energy, and finally calculates the autocorrelation time from the chromatic Gibbs sampling energy measurements. The code is located in `ultrafast_full_boltzmann_machine/julia/groundstate/sampling.jl`, `ultrafast_full_boltzmann_machine/julia/gibbs/example.jl`, and `ultrafast_full_boltzmann_machine/autocorrelation/autocorrelation.py`.
 
 ## Usage of Chromatic Gibbs Sampling code
 The chromatic Gibbs sampling code is provided in the `ultrafast_full_boltzmann_machine/julia/gibbs/gibbs/convenience_chromatic_gibbs.jl` folder where the function `chromatic_rbm_sampler` is defined. The settings and arguments are described below. Note that to obtain the required $W$ and $b$, `make convert_weights` should be executed first.

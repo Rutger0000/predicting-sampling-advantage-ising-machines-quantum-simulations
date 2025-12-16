@@ -5,8 +5,7 @@
 PROJECT_NAME = ultrafast-full-boltzmann-machine
 PYTHON_VERSION = 3.11
 PYTHON_INTERPRETER = python
-JULIA_INTERPRETER = julia --project=.  -p $(WORKERS)
-WORKERS = 1
+JULIA_INTERPRETER = julia --project=.  
 ID = 0
 
 #################################################################################
@@ -58,6 +57,12 @@ generate_configs: models/all_weights_converted.tsv
 models/all_weights_converted.tsv: models/computed_configurations/converted/converted_configurations.py ultrafast_full_boltzmann_machine/models/models.py
 	$(PYTHON_INTERPRETER) models/computed_configurations/converted/converted_configurations.py
 
+## Run MH sampling, Chromatic Gibbs sampling, and calculate autocorrelation time
+.PHONY: example
+example:
+	$(JULIA_INTERPRETER) ultrafast_full_boltzmann_machine/julia/groundstate/sampling.jl
+	$(JULIA_INTERPRETER) ultrafast_full_boltzmann_machine/julia/gibbs/example.jl
+	$(PYTHON_INTERPRETER) ultrafast_full_boltzmann_machine/autocorrelation/autocorrelation.py
 
 #################################################################################
 # Self Documenting Commands                                                     #
